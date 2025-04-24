@@ -4,9 +4,6 @@ import '@testing-library/jest-dom/vitest'
 import 'whatwg-fetch';
 import {Blob} from 'node:buffer';
 
-
 afterEach(() => {
     cleanup();
 })
-
-export default Blob
