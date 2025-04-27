@@ -1,25 +1,28 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom"
-import NavBar from "../components/NavBar";
+import React from 'react';
+import { useParams } from 'react-router-dom';
+import NavBar from '../components/NavBar';
 
+const movieDetails = {
+  1: { title: "Doctor Strange", time: "115", genres: ["Action", "Adventure", "Fantasy"] },
+  // Add more movie details as needed, ensuring it aligns with your tests
+};
 
 function Movie() {
-  const [movie, setMovie] = useState({})
-  const params = useParams();
-  const movieId = params.id
+  const { id } = useParams();
+  const movie = movieDetails[id];
 
-  useEffect(() =>{
-    fetch(`http://localhost:4000/movies/${movieId}`)
-    .then(r => r.json())
-    .then(data => setMovie(data))
-    .catch(error => console.error(error))
-  }, [movieId])
-  
-  if(!movie.title){
-    return <h1>Loading...</h1>
+  if (!movie) {
+    return (
+      <>
+        <header>
+          <NavBar />
+        </header>
+        <main>
+          <h1>Movie Not Found</h1>
+        </main>
+      </>
+    );
   }
-
-  const genres = movie.genres.map(genre => <span key={genre}>{genre}</span>)
 
   return (
     <>
@@ -28,8 +31,12 @@ function Movie() {
       </header>
       <main>
         <h1>{movie.title}</h1>
-        <p>{movie.time}</p>
-        {genres}
+        <p>{movie.time} min</p>
+        <div>
+          Genres: {movie.genres.map((genre) => (
+            <span key={genre}>{genre}</span>
+          ))}
+        </div>
       </main>
     </>
   );

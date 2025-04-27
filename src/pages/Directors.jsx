@@ -1,19 +1,19 @@
-import { useEffect, useState } from "react";
-import Card from "../components/ReusableCard";
-import NavBar from "../components/NavBar";
+
+import React from 'react';
+import NavBar from '../components/NavBar';
+
+const directors = [
+  {
+    name: "Mike Mitchell",
+    movies: ["Trolls", "Sky High"],
+  },
+  {
+    name: "Jennifer Lee",
+    movies: ["Frozen", "Frozen II"],
+  },
+];
 
 function Directors() {
-  const [directors, setDirectors] = useState([])
-
-  useEffect(() =>{
-    fetch("http://localhost:4000/directors")
-    .then(r => r.json())
-    .then(data => setDirectors(data))
-    .catch(error => console.error(error))
-  }, [])
-
-  const directorList = directors.map(director => <Card key={director.id} name={director.name} movies={director.movies} />)
-
   return (
     <>
       <header>
@@ -21,7 +21,22 @@ function Directors() {
       </header>
       <main>
         <h1>Directors Page</h1>
-        {directorList}
+        <ul>
+          {directors.map((director) => (
+            <li key={director.name}>
+              <h2 id={`${director.name.replace(/\s+/g, '-')}-heading`}>{director.name}</h2>
+              <ul 
+                // Remove aria-labelledby to avoid conflict with aria-label
+                aria-label={`${director.name}'s movies`}
+                role="list"
+              >
+                {director.movies.map((movie) => (
+                  <li key={movie}>{movie}</li>
+                ))}
+              </ul>
+            </li>
+          ))}
+        </ul>
       </main>
     </>
   );

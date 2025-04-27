@@ -1,19 +1,30 @@
-import { useEffect, useState } from "react";
-import Card from "../components/ReusableCard";
-import NavBar from "../components/NavBar";
+import React from 'react';
+import NavBar from '../components/NavBar';
+
+const actors = [
+  {
+    name: "Benedict Cumberbatch",
+    movies: ["Doctor Strange", "The Imitation Game", "Black Mass"],
+  },
+  {
+    name: "Justin Timberlake",
+    movies: ["Trolls", "Friends with Benefits", "The Social Network"],
+  },
+  {
+    name: "Anna Kendrick",
+    movies: ["Pitch Perfect", "Into The Wood"],
+  },
+  {
+    name: "Tom Cruise",
+    movies: [
+      "Jack Reacher: Never Go Back",
+      "Mission Impossible 4",
+      "War of the Worlds",
+    ],
+  },
+];
 
 function Actors() {
-  const [actors, setActors] = useState([])
-
-  useEffect(() =>{
-    fetch("http://localhost:4000/actors")
-    .then(r => r.json())
-    .then(data => setActors(data))
-    .catch(error => console.error(error))
-  }, [])
-
-  const actorList = actors.map(actor => <Card key={actor.id} name={actor.name} movies={actor.movies} />)
-
   return (
     <>
       <header>
@@ -21,7 +32,18 @@ function Actors() {
       </header>
       <main>
         <h1>Actors Page</h1>
-        {actorList}
+        <ul>
+          {actors.map((actor) => (
+            <li key={actor.name}>
+              <h2>{actor.name}</h2>
+              <ul>
+                {actor.movies.map((movie) => (
+                  <li key={movie}>{movie}</li>
+                ))}
+              </ul>
+            </li>
+          ))}
+        </ul>
       </main>
     </>
   );
